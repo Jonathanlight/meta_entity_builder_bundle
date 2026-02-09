@@ -1,0 +1,55 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+
+    Meta\EntityBuilderBundle\Parser\YamlSchemaParser: ~
+
+    Meta\EntityBuilderBundle\Parser\SchemaParserInterface:
+        alias: Meta\EntityBuilderBundle\Parser\YamlSchemaParser
+
+    Meta\EntityBuilderBundle\Generator\EntityGenerator: ~
+
+    Meta\EntityBuilderBundle\Generator\EntityGeneratorInterface:
+        alias: Meta\EntityBuilderBundle\Generator\EntityGenerator
+
+    Meta\EntityBuilderBundle\Service\SchemaStateManager:
+        arguments:
+            $statePath: '%kernel.project_dir%/var/meta_entity_builder/.schema_state.json'
+
+    Meta\EntityBuilderBundle\Service\SchemaStateManagerInterface:
+        alias: Meta\EntityBuilderBundle\Service\SchemaStateManager
+
+    Meta\EntityBuilderBundle\Service\SchemaComparator: ~
+
+    Meta\EntityBuilderBundle\Service\SchemaComparatorInterface:
+        alias: Meta\EntityBuilderBundle\Service\SchemaComparator
+
+    Meta\EntityBuilderBundle\Service\BackupService:
+        arguments:
+            $backupDirectory: '%meta_entity_builder.backup_directory%'
+
+    Meta\EntityBuilderBundle\Service\BackupServiceInterface:
+        alias: Meta\EntityBuilderBundle\Service\BackupService
+
+    Meta\EntityBuilderBundle\Service\EntityBuilderService:
+        arguments:
+            $parser: '@Meta\EntityBuilderBundle\Parser\SchemaParserInterface'
+            $generator: '@Meta\EntityBuilderBundle\Generator\EntityGeneratorInterface'
+            $stateManager: '@Meta\EntityBuilderBundle\Service\SchemaStateManagerInterface'
+            $comparator: '@Meta\EntityBuilderBundle\Service\SchemaComparatorInterface'
+            $backupService: '@Meta\EntityBuilderBundle\Service\BackupServiceInterface'
+            $eventDispatcher: '@event_dispatcher'
+            $schemaPath: '%meta_entity_builder.schema_path%'
+            $entityNamespace: '%meta_entity_builder.entity_namespace%'
+            $entityDirectory: '%meta_entity_builder.entity_directory%'
+            $backupEnabled: '%meta_entity_builder.backup_enabled%'
+
+    Meta\EntityBuilderBundle\Service\EntityBuilderServiceInterface:
+        alias: Meta\EntityBuilderBundle\Service\EntityBuilderService
+
+    Meta\EntityBuilderBundle\Command\GenerateEntityCommand:
+        arguments:
+            $builderService: '@Meta\EntityBuilderBundle\Service\EntityBuilderServiceInterface'
+        tags:
+            - { name: console.command }

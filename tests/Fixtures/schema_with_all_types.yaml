@@ -1,0 +1,41 @@
+entities:
+    AllTypes:
+        table: all_types
+        properties:
+            id:
+                type: integer
+                id: true
+                autoIncrement: true
+            smallNumber:
+                type: smallint
+            bigNumber:
+                type: bigint
+                nullable: true
+            title:
+                type: string
+                length: 255
+            description:
+                type: text
+                nullable: true
+            isActive:
+                type: boolean
+                default: false
+            price:
+                type: decimal
+                precision: 10
+                scale: 2
+            rating:
+                type: float
+                nullable: true
+            createdAt:
+                type: datetime
+            updatedAt:
+                type: datetime_immutable
+                nullable: true
+            metadata:
+                type: json
+            tags:
+                type: simple_array
+                nullable: true
+            uniqueId:
+                type: guid

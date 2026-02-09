@@ -1,0 +1,10 @@
+entities:
+    SimpleEntity:
+        properties:
+            id:
+                type: integer
+                id: true
+                autoIncrement: true
+            name:
+                type: string
+                length: 255

@@ -1,0 +1,10 @@
+entities:
+    User:
+        table: users
+        properties:
+            id:
+                type: integer
+                id: true
+        relations:
+            posts:
+                type: OneToMany

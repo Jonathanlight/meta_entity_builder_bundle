@@ -1,0 +1,6 @@
+entities:
+    User:
+        table: users
+        properties:
+            id:
+                type: nonexistent_type
