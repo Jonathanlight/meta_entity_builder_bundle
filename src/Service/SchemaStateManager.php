@@ -27,13 +27,13 @@ final class SchemaStateManager implements SchemaStateManagerInterface
             return new SchemaState();
         }
 
-        $content = \file_get_contents($this->statePath);
-        if ($content === false) {
+        $content = file_get_contents($this->statePath);
+        if (false === $content) {
             return new SchemaState();
         }
 
         /** @var array<string, mixed>|null $data */
-        $data = \json_decode($content, true);
+        $data = json_decode($content, true);
         if (!\is_array($data)) {
             return new SchemaState();
         }
@@ -48,16 +48,16 @@ final class SchemaStateManager implements SchemaStateManagerInterface
             $this->filesystem->mkdir($dir, 0755);
         }
 
-        $json = \json_encode($state->toArray(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES);
-        if ($json === false) {
+        $json = json_encode($state->toArray(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES);
+        if (false === $json) {
             return;
         }
 
-        $this->filesystem->dumpFile($this->statePath, $json . "\n");
+        $this->filesystem->dumpFile($this->statePath, $json."\n");
     }
 
     public function hasState(): bool
     {
-        return \file_exists($this->statePath);
+        return file_exists($this->statePath);
     }
 }

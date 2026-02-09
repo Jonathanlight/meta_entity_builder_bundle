@@ -28,7 +28,7 @@ final class YamlSchemaParser implements SchemaParserInterface
      */
     public function parse(string $filePath): array
     {
-        if (!\file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new SchemaParseException(\sprintf('Schema file not found: %s', $filePath));
         }
 
@@ -91,7 +91,7 @@ final class YamlSchemaParser implements SchemaParserInterface
                         $name
                     ));
                 }
-                $indexes[(string) $indexName] = \array_map('strval', $columns);
+                $indexes[(string) $indexName] = array_map('strval', $columns);
             }
         }
 
@@ -105,7 +105,7 @@ final class YamlSchemaParser implements SchemaParserInterface
                         $name
                     ));
                 }
-                $uniqueConstraints[(string) $constraintName] = \array_map('strval', $columns);
+                $uniqueConstraints[(string) $constraintName] = array_map('strval', $columns);
             }
         }
 
@@ -119,7 +119,7 @@ final class YamlSchemaParser implements SchemaParserInterface
             $uniqueConstraints
         );
 
-        $checksum = \md5(\serialize($definition->toArray()));
+        $checksum = md5(serialize($definition->toArray()));
 
         return new EntityDefinition(
             $name,
@@ -153,7 +153,7 @@ final class YamlSchemaParser implements SchemaParserInterface
                 'Property "%s" has invalid type "%s". Valid types: %s',
                 $name,
                 $type,
-                \implode(', ', self::VALID_PROPERTY_TYPES)
+                implode(', ', self::VALID_PROPERTY_TYPES)
             ));
         }
 
@@ -192,7 +192,7 @@ final class YamlSchemaParser implements SchemaParserInterface
                 'Relation "%s" has invalid type "%s". Valid types: %s',
                 $name,
                 $type,
-                \implode(', ', self::VALID_RELATION_TYPES)
+                implode(', ', self::VALID_RELATION_TYPES)
             ));
         }
 
@@ -203,7 +203,7 @@ final class YamlSchemaParser implements SchemaParserInterface
         $cascade = [];
         if (isset($config['cascade'])) {
             $cascade = \is_array($config['cascade'])
-                ? \array_map('strval', $config['cascade'])
+                ? array_map('strval', $config['cascade'])
                 : [(string) $config['cascade']];
         }
 

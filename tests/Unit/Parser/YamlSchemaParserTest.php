@@ -19,7 +19,7 @@ final class YamlSchemaParserTest extends TestCase
 
     public function testParseValidSchema(): void
     {
-        $definitions = $this->parser->parse(__DIR__ . '/../../Fixtures/valid_schema.yaml');
+        $definitions = $this->parser->parse(__DIR__.'/../../Fixtures/valid_schema.yaml');
 
         self::assertCount(2, $definitions);
         self::assertArrayHasKey('User', $definitions);
@@ -61,7 +61,7 @@ final class YamlSchemaParserTest extends TestCase
 
     public function testParseMinimalSchema(): void
     {
-        $definitions = $this->parser->parse(__DIR__ . '/../../Fixtures/minimal_schema.yaml');
+        $definitions = $this->parser->parse(__DIR__.'/../../Fixtures/minimal_schema.yaml');
 
         self::assertCount(1, $definitions);
         self::assertArrayHasKey('SimpleEntity', $definitions);
@@ -86,7 +86,7 @@ final class YamlSchemaParserTest extends TestCase
         $this->expectException(SchemaParseException::class);
         $this->expectExceptionMessage('Schema must contain an "entities" key');
 
-        $this->parser->parse(__DIR__ . '/../../Fixtures/invalid_schema_no_entities.yaml');
+        $this->parser->parse(__DIR__.'/../../Fixtures/invalid_schema_no_entities.yaml');
     }
 
     public function testParseInvalidPropertyType(): void
@@ -94,7 +94,7 @@ final class YamlSchemaParserTest extends TestCase
         $this->expectException(SchemaParseException::class);
         $this->expectExceptionMessage('invalid type "nonexistent_type"');
 
-        $this->parser->parse(__DIR__ . '/../../Fixtures/invalid_schema_bad_type.yaml');
+        $this->parser->parse(__DIR__.'/../../Fixtures/invalid_schema_bad_type.yaml');
     }
 
     public function testParseRelationWithoutTargetEntity(): void
@@ -102,13 +102,13 @@ final class YamlSchemaParserTest extends TestCase
         $this->expectException(SchemaParseException::class);
         $this->expectExceptionMessage('must have a "targetEntity" field');
 
-        $this->parser->parse(__DIR__ . '/../../Fixtures/invalid_schema_no_relation_target.yaml');
+        $this->parser->parse(__DIR__.'/../../Fixtures/invalid_schema_no_relation_target.yaml');
     }
 
     public function testChecksumDeterminism(): void
     {
-        $definitions1 = $this->parser->parse(__DIR__ . '/../../Fixtures/valid_schema.yaml');
-        $definitions2 = $this->parser->parse(__DIR__ . '/../../Fixtures/valid_schema.yaml');
+        $definitions1 = $this->parser->parse(__DIR__.'/../../Fixtures/valid_schema.yaml');
+        $definitions2 = $this->parser->parse(__DIR__.'/../../Fixtures/valid_schema.yaml');
 
         self::assertSame(
             $definitions1['User']->getChecksum(),
@@ -118,7 +118,7 @@ final class YamlSchemaParserTest extends TestCase
 
     public function testParseAllTypes(): void
     {
-        $definitions = $this->parser->parse(__DIR__ . '/../../Fixtures/schema_with_all_types.yaml');
+        $definitions = $this->parser->parse(__DIR__.'/../../Fixtures/schema_with_all_types.yaml');
 
         self::assertArrayHasKey('AllTypes', $definitions);
         $entity = $definitions['AllTypes'];

@@ -75,15 +75,15 @@ final class GenerateEntityCommand extends Command
         $errors = $results['errors'] ?? [];
 
         if (\count($created) > 0) {
-            $io->success(\sprintf('Created %d entit%s: %s', \count($created), \count($created) === 1 ? 'y' : 'ies', \implode(', ', $created)));
+            $io->success(\sprintf('Created %d entit%s: %s', \count($created), 1 === \count($created) ? 'y' : 'ies', implode(', ', $created)));
         }
 
         if (\count($updated) > 0) {
-            $io->success(\sprintf('Updated %d entit%s: %s', \count($updated), \count($updated) === 1 ? 'y' : 'ies', \implode(', ', $updated)));
+            $io->success(\sprintf('Updated %d entit%s: %s', \count($updated), 1 === \count($updated) ? 'y' : 'ies', implode(', ', $updated)));
         }
 
         if (\count($skipped) > 0) {
-            $io->comment(\sprintf('Skipped %d entit%s (no changes): %s', \count($skipped), \count($skipped) === 1 ? 'y' : 'ies', \implode(', ', $skipped)));
+            $io->comment(\sprintf('Skipped %d entit%s (no changes): %s', \count($skipped), 1 === \count($skipped) ? 'y' : 'ies', implode(', ', $skipped)));
         }
 
         foreach ($errors as $error) {

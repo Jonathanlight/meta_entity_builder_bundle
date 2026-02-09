@@ -117,10 +117,10 @@ final class EntityDefinition
             'name' => $this->name,
             'table' => $this->table,
             'repository' => $this->repository,
-            'properties' => \array_map(static function (PropertyDefinition $p): array {
+            'properties' => array_map(static function (PropertyDefinition $p): array {
                 return $p->toArray();
             }, $this->properties),
-            'relations' => \array_map(static function (RelationDefinition $r): array {
+            'relations' => array_map(static function (RelationDefinition $r): array {
                 return $r->toArray();
             }, $this->relations),
             'indexes' => $this->indexes,

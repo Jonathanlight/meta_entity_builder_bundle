@@ -48,7 +48,7 @@ final class SchemaState
     {
         $new = clone $this;
         $new->checksums[$entityName] = $checksum;
-        $new->lastGeneratedAt = \time();
+        $new->lastGeneratedAt = time();
 
         return $new;
     }

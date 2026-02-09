@@ -64,7 +64,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $lines[] = $properties;
 
         $constructor = $this->buildConstructor($definition, $namespace);
-        if ($constructor !== '') {
+        if ('' !== $constructor) {
             $lines[] = $constructor;
         }
 
@@ -76,7 +76,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $lines[] = '}';
         $lines[] = '';
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     /**
@@ -103,21 +103,21 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         foreach ($definition->getRelations() as $relation) {
             $targetEntity = $relation->getTargetEntity();
-            if (\strpos($targetEntity, '\\') !== false) {
-                $targetNamespace = \substr($targetEntity, 0, (int) \strrpos($targetEntity, '\\'));
+            if (false !== strpos($targetEntity, '\\')) {
+                $targetNamespace = substr($targetEntity, 0, (int) strrpos($targetEntity, '\\'));
                 if ($targetNamespace !== $namespace) {
                     $uses[] = $targetEntity;
                 }
             }
         }
 
-        if ($definition->getRepository() !== null) {
+        if (null !== $definition->getRepository()) {
             $uses[] = $definition->getRepository();
         }
 
-        \sort($uses);
+        sort($uses);
 
-        return \array_unique($uses);
+        return array_unique($uses);
     }
 
     /**
@@ -128,25 +128,25 @@ final class EntityGenerator implements EntityGeneratorInterface
         $attrs = [];
 
         $entityArgs = [];
-        if ($definition->getRepository() !== null) {
+        if (null !== $definition->getRepository()) {
             $shortName = $this->getShortClassName($definition->getRepository());
             $entityArgs[] = \sprintf('repositoryClass: %s::class', $shortName);
         }
 
         $attrs[] = \count($entityArgs) > 0
-            ? \sprintf('#[ORM\Entity(%s)]', \implode(', ', $entityArgs))
+            ? \sprintf('#[ORM\Entity(%s)]', implode(', ', $entityArgs))
             : '#[ORM\Entity]';
 
-        if ($definition->getTable() !== null) {
+        if (null !== $definition->getTable()) {
             $attrs[] = \sprintf("#[ORM\\Table(name: '%s')]", $definition->getTable());
 
             foreach ($definition->getIndexes() as $indexName => $columns) {
-                $colList = \implode("', '", $columns);
+                $colList = implode("', '", $columns);
                 $attrs[] = \sprintf("#[ORM\\Index(name: '%s', columns: ['%s'])]", $indexName, $colList);
             }
 
             foreach ($definition->getUniqueConstraints() as $constraintName => $columns) {
-                $colList = \implode("', '", $columns);
+                $colList = implode("', '", $columns);
                 $attrs[] = \sprintf("#[ORM\\UniqueConstraint(name: '%s', columns: ['%s'])]", $constraintName, $colList);
             }
         }
@@ -168,7 +168,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             $lines[] = $relLines;
         }
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     private function buildPropertyCode(PropertyDefinition $property): string
@@ -184,19 +184,19 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $columnArgs = [\sprintf("type: '%s'", $property->getType())];
 
-        if ($property->getColumnName() !== null) {
+        if (null !== $property->getColumnName()) {
             $columnArgs[] = \sprintf("name: '%s'", $property->getColumnName());
         }
 
-        if ($property->getLength() !== null) {
+        if (null !== $property->getLength()) {
             $columnArgs[] = \sprintf('length: %d', $property->getLength());
         }
 
-        if ($property->getPrecision() !== null) {
+        if (null !== $property->getPrecision()) {
             $columnArgs[] = \sprintf('precision: %d', $property->getPrecision());
         }
 
-        if ($property->getScale() !== null) {
+        if (null !== $property->getScale()) {
             $columnArgs[] = \sprintf('scale: %d', $property->getScale());
         }
 
@@ -208,25 +208,25 @@ final class EntityGenerator implements EntityGeneratorInterface
             $columnArgs[] = 'nullable: true';
         }
 
-        $lines[] = \sprintf('    #[ORM\Column(%s)]', \implode(', ', $columnArgs));
+        $lines[] = \sprintf('    #[ORM\Column(%s)]', implode(', ', $columnArgs));
 
         $phpType = self::TYPE_MAP[$property->getType()] ?? 'mixed';
         $defaultStr = '';
 
         if ($property->isId() && $property->isAutoIncrement()) {
-            $phpType = '?' . $phpType;
+            $phpType = '?'.$phpType;
             $defaultStr = ' = null';
-        } elseif ($property->getDefault() !== null) {
-            $defaultStr = ' = ' . $this->formatDefaultValue($property->getDefault(), $phpType);
+        } elseif (null !== $property->getDefault()) {
+            $defaultStr = ' = '.$this->formatDefaultValue($property->getDefault(), $phpType);
         } elseif ($property->isNullable()) {
-            $phpType = '?' . $phpType;
+            $phpType = '?'.$phpType;
             $defaultStr = ' = null';
         }
 
         $lines[] = \sprintf('    private %s $%s%s;', $phpType, $property->getName(), $defaultStr);
         $lines[] = '';
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     private function buildRelationPropertyCode(RelationDefinition $relation, string $namespace): string
@@ -236,16 +236,16 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $attrArgs = [\sprintf('targetEntity: %s::class', $targetShort)];
 
-        if ($relation->getMappedBy() !== null) {
+        if (null !== $relation->getMappedBy()) {
             $attrArgs[] = \sprintf("mappedBy: '%s'", $relation->getMappedBy());
         }
 
-        if ($relation->getInversedBy() !== null) {
+        if (null !== $relation->getInversedBy()) {
             $attrArgs[] = \sprintf("inversedBy: '%s'", $relation->getInversedBy());
         }
 
         if (\count($relation->getCascade()) > 0) {
-            $cascadeList = \implode("', '", $relation->getCascade());
+            $cascadeList = implode("', '", $relation->getCascade());
             $attrArgs[] = \sprintf("cascade: ['%s']", $cascadeList);
         }
 
@@ -253,10 +253,10 @@ final class EntityGenerator implements EntityGeneratorInterface
             $attrArgs[] = 'orphanRemoval: true';
         }
 
-        $lines[] = \sprintf('    #[ORM\%s(%s)]', $relation->getType(), \implode(', ', $attrArgs));
+        $lines[] = \sprintf('    #[ORM\%s(%s)]', $relation->getType(), implode(', ', $attrArgs));
 
         $joinColumn = $relation->getJoinColumn();
-        if ($joinColumn !== null) {
+        if (null !== $joinColumn) {
             $jcArgs = [];
             if (isset($joinColumn['name'])) {
                 $jcArgs[] = \sprintf("name: '%s'", $joinColumn['name']);
@@ -267,16 +267,16 @@ final class EntityGenerator implements EntityGeneratorInterface
             if (isset($joinColumn['nullable'])) {
                 $jcArgs[] = \sprintf('nullable: %s', $joinColumn['nullable'] ? 'true' : 'false');
             }
-            $lines[] = \sprintf('    #[ORM\JoinColumn(%s)]', \implode(', ', $jcArgs));
+            $lines[] = \sprintf('    #[ORM\JoinColumn(%s)]', implode(', ', $jcArgs));
         }
 
         $joinTable = $relation->getJoinTable();
-        if ($joinTable !== null) {
+        if (null !== $joinTable) {
             $jtArgs = [];
             if (isset($joinTable['name'])) {
                 $jtArgs[] = \sprintf("name: '%s'", $joinTable['name']);
             }
-            $lines[] = \sprintf('    #[ORM\JoinTable(%s)]', \implode(', ', $jtArgs));
+            $lines[] = \sprintf('    #[ORM\JoinTable(%s)]', implode(', ', $jtArgs));
         }
 
         if ($relation->isCollection()) {
@@ -287,7 +287,7 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $lines[] = '';
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     private function buildConstructor(EntityDefinition $definition, string $namespace): string
@@ -303,12 +303,12 @@ final class EntityGenerator implements EntityGeneratorInterface
         $arrayProperties = [];
         foreach ($definition->getProperties() as $property) {
             $phpType = self::TYPE_MAP[$property->getType()] ?? 'mixed';
-            if ($phpType === 'array' && $property->getDefault() === null && !$property->isNullable()) {
+            if ('array' === $phpType && null === $property->getDefault() && !$property->isNullable()) {
                 $arrayProperties[] = $property;
             }
         }
 
-        if (\count($collectionRelations) === 0 && \count($arrayProperties) === 0) {
+        if (0 === \count($collectionRelations) && 0 === \count($arrayProperties)) {
             return '';
         }
 
@@ -327,7 +327,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $lines[] = '    }';
         $lines[] = '';
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     private function buildMethods(EntityDefinition $definition, string $namespace): string
@@ -342,7 +342,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             $lines[] = $this->buildRelationMethods($relation, $namespace);
         }
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     private function buildGetterSetter(PropertyDefinition $property): string
@@ -350,20 +350,20 @@ final class EntityGenerator implements EntityGeneratorInterface
         $lines = [];
         $phpType = self::TYPE_MAP[$property->getType()] ?? 'mixed';
         $name = $property->getName();
-        $ucName = \ucfirst($name);
+        $ucName = ucfirst($name);
 
         $returnType = $phpType;
         if ($property->isId() && $property->isAutoIncrement()) {
-            $returnType = '?' . $phpType;
+            $returnType = '?'.$phpType;
         } elseif ($property->isNullable()) {
-            $returnType = '?' . $phpType;
+            $returnType = '?'.$phpType;
         }
 
         // Getter
-        if ($phpType === 'bool') {
-            $getterName = 'is' . $ucName;
+        if ('bool' === $phpType) {
+            $getterName = 'is'.$ucName;
         } else {
-            $getterName = 'get' . $ucName;
+            $getterName = 'get'.$ucName;
         }
 
         $lines[] = \sprintf('    public function %s(): %s', $getterName, $returnType);
@@ -376,7 +376,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         if (!($property->isId() && $property->isAutoIncrement())) {
             $paramType = $phpType;
             if ($property->isNullable()) {
-                $paramType = '?' . $phpType;
+                $paramType = '?'.$phpType;
             }
 
             $lines[] = \sprintf('    public function set%s(%s $%s): self', $ucName, $paramType, $name);
@@ -388,14 +388,14 @@ final class EntityGenerator implements EntityGeneratorInterface
             $lines[] = '';
         }
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     private function buildRelationMethods(RelationDefinition $relation, string $namespace): string
     {
         $lines = [];
         $name = $relation->getName();
-        $ucName = \ucfirst($name);
+        $ucName = ucfirst($name);
         $targetShort = $this->resolveTargetEntityShort($relation->getTargetEntity(), $namespace);
 
         if ($relation->isCollection()) {
@@ -411,7 +411,7 @@ final class EntityGenerator implements EntityGeneratorInterface
 
             // Singular name for add/remove
             $singular = $this->singularize($name);
-            $ucSingular = \ucfirst($singular);
+            $ucSingular = ucfirst($singular);
 
             // Add method
             $lines[] = \sprintf('    public function add%s(%s $%s): self', $ucSingular, $targetShort, $singular);
@@ -420,8 +420,8 @@ final class EntityGenerator implements EntityGeneratorInterface
             $lines[] = \sprintf('            $this->%s->add($%s);', $name, $singular);
 
             // Set inverse side for OneToMany
-            if ($relation->getType() === 'OneToMany' && $relation->getMappedBy() !== null) {
-                $lines[] = \sprintf('            $%s->set%s($this);', $singular, \ucfirst($relation->getMappedBy()));
+            if ('OneToMany' === $relation->getType() && null !== $relation->getMappedBy()) {
+                $lines[] = \sprintf('            $%s->set%s($this);', $singular, ucfirst($relation->getMappedBy()));
             }
 
             $lines[] = '        }';
@@ -435,9 +435,9 @@ final class EntityGenerator implements EntityGeneratorInterface
             $lines[] = '    {';
             $lines[] = \sprintf('        if ($this->%s->removeElement($%s)) {', $name, $singular);
 
-            if ($relation->getType() === 'OneToMany' && $relation->getMappedBy() !== null) {
-                $lines[] = \sprintf('            if ($%s->get%s() === $this) {', $singular, \ucfirst($relation->getMappedBy()));
-                $lines[] = \sprintf('                $%s->set%s(null);', $singular, \ucfirst($relation->getMappedBy()));
+            if ('OneToMany' === $relation->getType() && null !== $relation->getMappedBy()) {
+                $lines[] = \sprintf('            if ($%s->get%s() === $this) {', $singular, ucfirst($relation->getMappedBy()));
+                $lines[] = \sprintf('                $%s->set%s(null);', $singular, ucfirst($relation->getMappedBy()));
                 $lines[] = '            }';
             }
 
@@ -464,13 +464,13 @@ final class EntityGenerator implements EntityGeneratorInterface
             $lines[] = '';
         }
 
-        return \implode("\n", $lines);
+        return implode("\n", $lines);
     }
 
     private function resolveTargetEntityShort(string $targetEntity, string $namespace): string
     {
-        if (\strpos($targetEntity, '\\') !== false) {
-            $targetNamespace = \substr($targetEntity, 0, (int) \strrpos($targetEntity, '\\'));
+        if (false !== strpos($targetEntity, '\\')) {
+            $targetNamespace = substr($targetEntity, 0, (int) strrpos($targetEntity, '\\'));
             if ($targetNamespace === $namespace) {
                 return $this->getShortClassName($targetEntity);
             }
@@ -483,16 +483,16 @@ final class EntityGenerator implements EntityGeneratorInterface
 
     private function getShortClassName(string $fqcn): string
     {
-        $pos = \strrpos($fqcn, '\\');
-        if ($pos === false) {
+        $pos = strrpos($fqcn, '\\');
+        if (false === $pos) {
             return $fqcn;
         }
 
-        return \substr($fqcn, $pos + 1);
+        return substr($fqcn, $pos + 1);
     }
 
     /**
-     * @param mixed  $value
+     * @param mixed $value
      */
     private function formatDefaultValue($value, string $phpType): string
     {
@@ -505,14 +505,14 @@ final class EntityGenerator implements EntityGeneratorInterface
         }
 
         if (\is_string($value)) {
-            return \sprintf("'%s'", \addslashes($value));
+            return \sprintf("'%s'", addslashes($value));
         }
 
         if (\is_array($value)) {
             return '[]';
         }
 
-        if ($value === null) {
+        if (null === $value) {
             return 'null';
         }
 
@@ -521,16 +521,16 @@ final class EntityGenerator implements EntityGeneratorInterface
 
     private function singularize(string $name): string
     {
-        if (\substr($name, -3) === 'ies') {
-            return \substr($name, 0, -3) . 'y';
+        if ('ies' === substr($name, -3)) {
+            return substr($name, 0, -3).'y';
         }
 
-        if (\substr($name, -2) === 'es' && \substr($name, -3) !== 'ses') {
-            return \substr($name, 0, -2);
+        if ('es' === substr($name, -2) && 'ses' !== substr($name, -3)) {
+            return substr($name, 0, -2);
         }
 
-        if (\substr($name, -1) === 's' && \substr($name, -2) !== 'ss') {
-            return \substr($name, 0, -1);
+        if ('s' === substr($name, -1) && 'ss' !== substr($name, -2)) {
+            return substr($name, 0, -1);
         }
 
         return $name;

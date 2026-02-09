@@ -17,8 +17,8 @@ final class BackupServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->filesystem = new Filesystem();
-        $this->tempDir = sys_get_temp_dir() . '/meta_entity_builder_backup_test_' . uniqid();
-        $this->backupDir = $this->tempDir . '/backups';
+        $this->tempDir = sys_get_temp_dir().'/meta_entity_builder_backup_test_'.uniqid();
+        $this->backupDir = $this->tempDir.'/backups';
         $this->filesystem->mkdir($this->tempDir);
     }
 
@@ -29,21 +29,21 @@ final class BackupServiceTest extends TestCase
 
     public function testBackupCreatesFile(): void
     {
-        $sourceFile = $this->tempDir . '/User.php';
+        $sourceFile = $this->tempDir.'/User.php';
         $this->filesystem->dumpFile($sourceFile, '<?php class User {}');
 
         $service = new BackupService($this->backupDir);
         $backupPath = $service->backup($sourceFile);
 
         self::assertFileExists($backupPath);
-        self::assertStringStartsWith($this->backupDir . '/User_', $backupPath);
+        self::assertStringStartsWith($this->backupDir.'/User_', $backupPath);
         self::assertStringEndsWith('.php', $backupPath);
         self::assertSame('<?php class User {}', file_get_contents($backupPath));
     }
 
     public function testBackupCreatesDirectory(): void
     {
-        $sourceFile = $this->tempDir . '/Post.php';
+        $sourceFile = $this->tempDir.'/Post.php';
         $this->filesystem->dumpFile($sourceFile, '<?php class Post {}');
 
         self::assertDirectoryDoesNotExist($this->backupDir);
@@ -56,7 +56,7 @@ final class BackupServiceTest extends TestCase
 
     public function testBackupPathContainsTimestamp(): void
     {
-        $sourceFile = $this->tempDir . '/Entity.php';
+        $sourceFile = $this->tempDir.'/Entity.php';
         $this->filesystem->dumpFile($sourceFile, '<?php');
 
         $service = new BackupService($this->backupDir);

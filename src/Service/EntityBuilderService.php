@@ -8,7 +8,6 @@ use Meta\EntityBuilderBundle\Event\EntityGeneratedEvent;
 use Meta\EntityBuilderBundle\Event\EntityUpdatedEvent;
 use Meta\EntityBuilderBundle\Exception\GenerationException;
 use Meta\EntityBuilderBundle\Generator\EntityGeneratorInterface;
-use Meta\EntityBuilderBundle\Model\ChangeSet;
 use Meta\EntityBuilderBundle\Parser\SchemaParserInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -98,11 +97,11 @@ final class EntityBuilderService implements EntityBuilderServiceInterface
         ];
 
         foreach ($definitions as $entityName => $definition) {
-            if ($entityFilter !== null && $entityName !== $entityFilter) {
+            if (null !== $entityFilter && $entityName !== $entityFilter) {
                 continue;
             }
 
-            $filePath = $this->entityDirectory . '/' . $entityName . '.php';
+            $filePath = $this->entityDirectory.'/'.$entityName.'.php';
             $isNew = \in_array($entityName, $changeSet->getAddedEntities(), true);
             $isModified = \in_array($entityName, $changeSet->getModifiedEntities(), true);
 
@@ -132,8 +131,8 @@ final class EntityBuilderService implements EntityBuilderServiceInterface
                     }
 
                     // Extract custom code
-                    $existingContent = \file_get_contents($filePath);
-                    if ($existingContent !== false) {
+                    $existingContent = file_get_contents($filePath);
+                    if (false !== $existingContent) {
                         $customCode = $this->extractCustomCode($existingContent);
                     }
                 }
@@ -142,7 +141,7 @@ final class EntityBuilderService implements EntityBuilderServiceInterface
                 $code = $this->generator->generate($definition, $this->entityNamespace);
 
                 // Inject preserved custom code
-                if ($customCode !== '') {
+                if ('' !== $customCode) {
                     $code = $this->injectCustomCode($code, $customCode);
                 }
 
@@ -191,8 +190,8 @@ final class EntityBuilderService implements EntityBuilderServiceInterface
     private function extractCustomCode(string $content): string
     {
         $pattern = '/\/\/\s*@custom-code-start\s*\n(.*?)\/\/\s*@custom-code-end/s';
-        if (\preg_match($pattern, $content, $matches)) {
-            return \trim($matches[1]);
+        if (preg_match($pattern, $content, $matches)) {
+            return trim($matches[1]);
         }
 
         return '';
@@ -203,8 +202,8 @@ final class EntityBuilderService implements EntityBuilderServiceInterface
         $pattern = '/(\/\/\s*@custom-code-start)\s*\n\s*(\/\/\s*@custom-code-end)/s';
         $replacement = \sprintf("$1\n    %s\n    $2", $customCode);
 
-        $result = \preg_replace($pattern, $replacement, $code);
+        $result = preg_replace($pattern, $replacement, $code);
 
-        return $result !== null ? $result : $code;
+        return null !== $result ? $result : $code;
     }
 }

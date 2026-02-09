@@ -28,7 +28,7 @@ final class MetaEntityBuilderExtension extends Extension
         $container->setParameter('meta_entity_builder.repository_namespace', $config['repository_namespace']);
         $container->setParameter('meta_entity_builder.strict_mode', $config['strict_mode']);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
     }
 }

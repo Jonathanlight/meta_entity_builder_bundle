@@ -26,7 +26,7 @@ final class EntityBuilderServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->filesystem = new Filesystem();
-        $this->tempDir = sys_get_temp_dir() . '/meta_entity_builder_service_test_' . uniqid();
+        $this->tempDir = sys_get_temp_dir().'/meta_entity_builder_service_test_'.uniqid();
         $this->filesystem->mkdir($this->tempDir);
     }
 
@@ -84,7 +84,7 @@ final class EntityBuilderServiceTest extends TestCase
         self::assertSame(['User'], $results['created']);
         self::assertSame([], $results['updated']);
         self::assertSame([], $results['skipped']);
-        self::assertFileExists($this->tempDir . '/User.php');
+        self::assertFileExists($this->tempDir.'/User.php');
     }
 
     public function testBuildSkipsUnchangedEntities(): void
@@ -167,7 +167,7 @@ final class EntityBuilderServiceTest extends TestCase
         $results = $service->build(['dryRun' => true]);
 
         self::assertSame(['User'], $results['created']);
-        self::assertFileDoesNotExist($this->tempDir . '/User.php');
+        self::assertFileDoesNotExist($this->tempDir.'/User.php');
     }
 
     public function testForceRegeneratesAllEntities(): void
@@ -251,7 +251,7 @@ final class EntityBuilderServiceTest extends TestCase
 
     public function testBackupIsCreatedForExistingFile(): void
     {
-        $existingFile = $this->tempDir . '/User.php';
+        $existingFile = $this->tempDir.'/User.php';
         $this->filesystem->dumpFile($existingFile, '<?php class User { /* old */ }');
 
         $definition = new EntityDefinition('User', null, null, [], [], [], [], 'new');
@@ -296,7 +296,7 @@ final class EntityBuilderServiceTest extends TestCase
 
     public function testCustomCodePreservation(): void
     {
-        $existingFile = $this->tempDir . '/User.php';
+        $existingFile = $this->tempDir.'/User.php';
         $existingContent = <<<'PHP'
 <?php
 class User {

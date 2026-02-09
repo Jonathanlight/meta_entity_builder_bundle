@@ -56,7 +56,7 @@ final class GenerateEntityCommandTest extends TestCase
         $builderService->expects(self::once())
             ->method('build')
             ->with(self::callback(function (array $options): bool {
-                return $options['dryRun'] === true;
+                return true === $options['dryRun'];
             }))
             ->willReturn([
                 'created' => ['User'],
@@ -79,7 +79,7 @@ final class GenerateEntityCommandTest extends TestCase
         $builderService->expects(self::once())
             ->method('build')
             ->with(self::callback(function (array $options): bool {
-                return $options['force'] === true;
+                return true === $options['force'];
             }))
             ->willReturn([
                 'created' => [],
@@ -102,7 +102,7 @@ final class GenerateEntityCommandTest extends TestCase
         $builderService->expects(self::once())
             ->method('build')
             ->with(self::callback(function (array $options): bool {
-                return $options['entityFilter'] === 'User';
+                return 'User' === $options['entityFilter'];
             }))
             ->willReturn([
                 'created' => ['User'],

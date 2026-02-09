@@ -41,8 +41,8 @@ final class EntityGeneratorTest extends TestCase
         self::assertStringContainsString('class User', $code);
         self::assertStringContainsString('#[ORM\\Id]', $code);
         self::assertStringContainsString('#[ORM\\GeneratedValue]', $code);
-        self::assertStringContainsString("private ?int \$id = null;", $code);
-        self::assertStringContainsString("private string \$name;", $code);
+        self::assertStringContainsString('private ?int $id = null;', $code);
+        self::assertStringContainsString('private string $name;', $code);
         self::assertStringContainsString('public function getId(): ?int', $code);
         self::assertStringContainsString('public function getName(): string', $code);
         self::assertStringContainsString('public function setName(string $name): self', $code);

@@ -16,8 +16,8 @@ final class SchemaStateManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->tempDir = sys_get_temp_dir() . '/meta_entity_builder_test_' . uniqid();
-        $this->statePath = $this->tempDir . '/.schema_state.json';
+        $this->tempDir = sys_get_temp_dir().'/meta_entity_builder_test_'.uniqid();
+        $this->statePath = $this->tempDir.'/.schema_state.json';
     }
 
     protected function tearDown(): void
@@ -62,7 +62,7 @@ final class SchemaStateManagerTest extends TestCase
 
     public function testSaveCreatesDirectory(): void
     {
-        $deepPath = $this->tempDir . '/sub/dir/.schema_state.json';
+        $deepPath = $this->tempDir.'/sub/dir/.schema_state.json';
         $manager = new SchemaStateManager($deepPath);
 
         $manager->save(new SchemaState(['User' => 'abc']));
@@ -73,7 +73,7 @@ final class SchemaStateManagerTest extends TestCase
     public function testLoadHandlesCorruptedJson(): void
     {
         $fs = new Filesystem();
-        $fs->mkdir(dirname($this->statePath));
+        $fs->mkdir(\dirname($this->statePath));
         $fs->dumpFile($this->statePath, 'not json');
 
         $manager = new SchemaStateManager($this->statePath);

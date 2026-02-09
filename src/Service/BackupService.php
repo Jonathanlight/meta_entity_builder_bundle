@@ -26,11 +26,11 @@ final class BackupService implements BackupServiceInterface
             $this->filesystem->mkdir($this->backupDirectory, 0755);
         }
 
-        $filename = \pathinfo($filePath, \PATHINFO_FILENAME);
-        $extension = \pathinfo($filePath, \PATHINFO_EXTENSION);
-        $timestamp = \date('Y-m-d_H-i-s');
+        $filename = pathinfo($filePath, \PATHINFO_FILENAME);
+        $extension = pathinfo($filePath, \PATHINFO_EXTENSION);
+        $timestamp = date('Y-m-d_H-i-s');
         $backupFilename = \sprintf('%s_%s.%s', $filename, $timestamp, $extension);
-        $backupPath = $this->backupDirectory . '/' . $backupFilename;
+        $backupPath = $this->backupDirectory.'/'.$backupFilename;
 
         $this->filesystem->copy($filePath, $backupPath, true);
 

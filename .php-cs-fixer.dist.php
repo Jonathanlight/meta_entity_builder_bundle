@@ -13,6 +13,7 @@ return (new PhpCsFixer\Config())
         'no_unused_imports' => true,
         'ordered_imports' => ['sort_algorithm' => 'alpha'],
         'single_line_throw' => false,
+        'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
     ])
     ->setFinder($finder)
     ->setRiskyAllowed(true)
