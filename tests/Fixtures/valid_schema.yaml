@@ -1,0 +1,55 @@
+entities:
+    User:
+        table: users
+        repository: App\Repository\UserRepository
+        properties:
+            id:
+                type: integer
+                id: true
+                autoIncrement: true
+            email:
+                type: string
+                length: 180
+                unique: true
+            name:
+                type: string
+                length: 255
+            isActive:
+                type: boolean
+                default: true
+            createdAt:
+                type: datetime_immutable
+        relations:
+            posts:
+                type: OneToMany
+                targetEntity: Post
+                mappedBy: author
+                cascade: [persist, remove]
+                orphanRemoval: true
+        indexes:
+            idx_email: [email]
+
+    Post:
+        table: posts
+        properties:
+            id:
+                type: integer
+                id: true
+                autoIncrement: true
+            title:
+                type: string
+                length: 255
+            content:
+                type: text
+                nullable: true
+            published:
+                type: boolean
+                default: false
+        relations:
+            author:
+                type: ManyToOne
+                targetEntity: User
+                inversedBy: posts
+                joinColumn:
+                    name: author_id
+                    referencedColumnName: id

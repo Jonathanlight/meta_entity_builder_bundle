@@ -1,0 +1,10 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    excludePaths:
+        - src/Resources
+    ignoreErrors:
+        -
+            message: '#Cannot call method \w+Node\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null#'
+            path: src/DependencyInjection/Configuration.php

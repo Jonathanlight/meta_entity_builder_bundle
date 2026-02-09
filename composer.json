@@ -1,0 +1,46 @@
+{
+    "name": "meta/entity-builder-bundle",
+    "description": "Symfony bundle that generates Doctrine entities from YAML schemas with smart update detection, custom code preservation, and automatic backups",
+    "type": "symfony-bundle",
+    "license": "Apache-2.0",
+    "keywords": [
+        "symfony",
+        "doctrine",
+        "entity",
+        "generator",
+        "yaml",
+        "schema"
+    ],
+    "require": {
+        "php": ">=7.4",
+        "symfony/framework-bundle": "^5.4|^6.0|^7.0",
+        "symfony/yaml": "^5.4|^6.0|^7.0",
+        "symfony/console": "^5.4|^6.0|^7.0",
+        "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+        "symfony/config": "^5.4|^6.0|^7.0",
+        "symfony/event-dispatcher": "^5.4|^6.0|^7.0",
+        "symfony/filesystem": "^5.4|^6.0|^7.0",
+        "doctrine/orm": "^2.10|^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5|^10.0|^11.0",
+        "phpstan/phpstan": "^1.10|^2.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "symfony/phpunit-bridge": "^5.4|^6.0|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Meta\\EntityBuilderBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Meta\\EntityBuilderBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
