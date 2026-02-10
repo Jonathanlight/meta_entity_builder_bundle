@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git config:*)",
+      "Bash(git -C /Users/jonathan/Desktop/work/meta_entity_builder_bundle log --oneline --all)",
+      "WebSearch",
+      "WebFetch(domain:www.doctrine-project.org)",
+      "Bash(composer validate:*)",
+      "Bash(composer install:*)",
+      "Bash(vendor/bin/phpstan analyse:*)",
+      "Bash(vendor/bin/phpunit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create --base develop --title \"Implement MetaEntityBuilderBundle\" --body \"$\\(cat <<''EOF''\n## Summary\n- Full implementation of MetaEntityBuilderBundle: a Symfony bundle that generates Doctrine entities from YAML schemas\n- Smart update detection via MD5 checksums, custom code preservation between `@custom-code-start`/`@custom-code-end` markers, and automatic timestamped backups\n- Console command `generate:entity` with `--force`, `--dry-run`, `--entity` options\n- 73 tests, 278 assertions, PHPStan level 8 clean\n\n## Test plan\n- [x] `composer validate` passes\n- [x] `vendor/bin/phpunit` — 73 tests, 278 assertions, all green\n- [x] `vendor/bin/phpstan analyse` — level 8, 0 errors\n- [ ] Create a test `entities.yaml`, run `generate:entity --dry-run` — verify expected output\n- [ ] Run `generate:entity` — verify files generated correctly\n- [ ] Modify YAML, run again — verify only changed entities regenerated\n- [ ] Add custom code between markers, regenerate — verify custom code preserved\nEOF\n\\)\")",
+      "Bash(gh pr merge:*)",
+      "Bash(git pull:*)",
+      "Bash(git branch:*)",
+      "Bash(vendor/bin/php-cs-fixer:*)"
+    ]
+  }
+}
