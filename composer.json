@@ -1,5 +1,5 @@
 {
-    "name": "Jonathanlight/meta_entity_builder_bundle",
+    "name": "jonathanlight/meta-entity-builder-bundle",
     "description": "Symfony bundle that generates Doctrine entities from YAML schemas with smart update detection, custom code preservation, and automatic backups",
     "type": "symfony-bundle",
     "license": "Apache-2.0",
