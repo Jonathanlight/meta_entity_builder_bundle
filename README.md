@@ -22,7 +22,7 @@ A Symfony bundle that generates Doctrine entities from YAML schemas with smart u
 ## Installation
 
 ```bash
-composer require meta/entity-builder-bundle
+composer require jonathanlight/meta-entity-builder-bundle
 ```
 
 ## Configuration
@@ -106,17 +106,19 @@ entities:
 
 ```bash
 # Generate all entities
-php bin/console generate:entity
+php bin/console meta-generate:entity
 
 # Dry run (preview changes without writing files)
-php bin/console generate:entity --dry-run
+php bin/console meta-generate:entity --dry-run
 
 # Force regeneration (ignore checksums)
-php bin/console generate:entity --force
+php bin/console meta-generate:entity --force
 
 # Generate a specific entity
-php bin/console generate:entity --entity=User
+php bin/console meta-generate:entity --entity=User
 ```
+
+Aliases available: `meta:entity:generate`, `entity:generate`
 
 ### Custom Code Preservation
 

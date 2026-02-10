@@ -15,10 +15,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class GenerateEntityCommand extends Command
 {
     /** @var string */
-    protected static $defaultName = 'generate:entity';
+    protected static $defaultName = 'meta-generate:entity';
 
     /** @var EntityBuilderServiceInterface */
-    private $builderService;
+    private EntityBuilderServiceInterface $builderService;
 
     public function __construct(EntityBuilderServiceInterface $builderService)
     {
@@ -29,7 +29,7 @@ final class GenerateEntityCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('generate:entity')
+            ->setName('meta-generate:entity')
             ->setAliases(['meta:entity:generate', 'entity:generate'])
             ->setDescription('Generate Doctrine entities from YAML schema')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force regeneration of all entities (ignore checksums)')
