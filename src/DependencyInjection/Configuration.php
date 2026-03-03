@@ -21,7 +21,7 @@ final class Configuration implements ConfigurationInterface
 
         $children
             ->scalarNode('schema_path')
-                ->defaultValue('%kernel.project_dir%/config/packages/entities.yaml')
+                ->defaultValue('%kernel.project_dir%/config/entities.yaml')
             ->end()
             ->scalarNode('entity_namespace')
                 ->defaultValue('App\\Entity')
