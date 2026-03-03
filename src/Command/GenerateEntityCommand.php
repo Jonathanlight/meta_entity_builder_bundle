@@ -34,7 +34,7 @@ final class GenerateEntityCommand extends Command
             ->setDescription('Generate Doctrine entities from YAML schema')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force regeneration of all entities (ignore checksums)')
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Preview changes without writing files')
-            ->addOption('entity', 'e', InputOption::VALUE_REQUIRED, 'Generate only a specific entity')
+            ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Generate only a specific entity')
         ;
     }
 

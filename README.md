@@ -30,7 +30,7 @@ composer require jonathanlight/meta-entity-builder-bundle
 ```yaml
 # config/packages/meta_entity_builder.yaml
 meta_entity_builder:
-    schema_path: '%kernel.project_dir%/config/entities.yaml'
+    schema_path: '%kernel.project_dir%/config/packages/entities.yaml'
     entity_namespace: 'App\Entity'
     entity_directory: '%kernel.project_dir%/src/Entity'
     backup_enabled: true
@@ -45,7 +45,7 @@ meta_entity_builder:
 Create your entity definitions in YAML:
 
 ```yaml
-# config/entities.yaml
+# config/packages/entities.yaml
 entities:
     User:
         table: users

@@ -17,7 +17,8 @@
       "Bash(gh pr merge:*)",
       "Bash(git pull:*)",
       "Bash(git branch:*)",
-      "Bash(vendor/bin/php-cs-fixer:*)"
+      "Bash(vendor/bin/php-cs-fixer:*)",
+      "Bash(gh pr:*)"
     ]
   }
 }
