@@ -24,7 +24,7 @@ final class EntitiesSchemaWarmer implements CacheWarmerInterface
     /**
      * @return string[]
      */
-    public function warmUp(string $cacheDir): array
+    public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         if ($this->filesystem->exists($this->schemaPath)) {
             return [];
