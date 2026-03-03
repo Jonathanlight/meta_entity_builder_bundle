@@ -48,6 +48,12 @@ services:
     Meta\EntityBuilderBundle\Service\EntityBuilderServiceInterface:
         alias: Meta\EntityBuilderBundle\Service\EntityBuilderService
 
+    Meta\EntityBuilderBundle\CacheWarmer\EntitiesSchemaWarmer:
+        arguments:
+            $schemaPath: '%meta_entity_builder.schema_path%'
+        tags:
+            - { name: kernel.cache_warmer }
+
     Meta\EntityBuilderBundle\Command\GenerateEntityCommand:
         arguments:
             $builderService: '@Meta\EntityBuilderBundle\Service\EntityBuilderServiceInterface'
